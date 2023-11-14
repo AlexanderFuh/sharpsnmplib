@@ -126,13 +126,17 @@ namespace Lextm.SharpSnmpLib
             return _int;
         }
 
+        // dynamically determine minimum/maximum defined error code values
+        private static readonly int MinErrorCode = Enum.GetValues<ErrorCode>().Cast<int>().Min();
+        private static readonly int MaxErrorCode = Enum.GetValues<ErrorCode>().Cast<int>().Max();
+
         /// <summary>
         /// Converts to <see cref="ErrorCode"/>.
         /// </summary>
         /// <returns></returns>
         public ErrorCode ToErrorCode()
         {
-            if (_int > 19 || _int < 0)
+            if (_int > MaxErrorCode || _int < MinErrorCode)
             {
                 throw new InvalidCastException();
             }
